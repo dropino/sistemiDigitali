@@ -32,7 +32,8 @@ def check_for_duplicates(paths, hash=hashlib.sha1):
     hashes_by_size = defaultdict(list)  # dict of size_in_bytes: [full_path_to_file1, full_path_to_file2, ]
     hashes_on_1k = defaultdict(list)  # dict of (hash1k, size_in_bytes): [full_path_to_file1, full_path_to_file2, ]
     hashes_full = {}   # dict of full_file_hash: full_path_to_file_string
-
+    duplicates = 0
+    
     for path in paths:
         for dirpath, dirnames, filenames in os.walk(path):
             # get all files that have the same size - they are the collision candidates
@@ -77,11 +78,13 @@ def check_for_duplicates(paths, hash=hashlib.sha1):
                 if duplicate:
                     print("Duplicate found: {} and {}".format(filename, duplicate))
                     os.remove(filename) 
+                    duplicates += 1
                 else:
                     hashes_full[full_hash] = filename
             except (OSError,):
                 # the file access might've changed till the exec point got here 
                 continue
+    print("duplicates found and removed {}".format(duplicates))
 
 
 if __name__ == "__main__":
