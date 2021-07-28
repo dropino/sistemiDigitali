@@ -23,23 +23,23 @@ public class Simulation {
 
     public void runSimulation(String category, double mw, double r){
         double v, q = 0;
-        if(category.equals("archbridge")) {
+        if(category.equals("Arch_bridges")) {
             v = values[0][0];
             q = values[0][1];
         }
-        else if(category.equals("castle")) {
+        else if(category.equals("Castles")) {
             v = values[1][0];
             q = values[1][1];
         }
-        else if(category.equals("church")) {
+        else if(category.equals("Churches")) {
             v = values[2][0];
             q = values[2][1];
         }
-        else if(category.equals("tower")) {
+        else if(category.equals("Towers")) {
             v = values[3][0];
             q = values[3][1];
         }
-        else if(category.equals("triumphalarch")) {
+        else if(category.equals("Triumphal_Arches")) {
             v = values[4][0];
             q = values[4][1];
         }
