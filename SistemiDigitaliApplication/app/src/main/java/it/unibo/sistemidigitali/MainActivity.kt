@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import it.unibo.sistemidigitali.ml.SavedModel384
 import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.common.ops.NormalizeOp
+import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
@@ -66,10 +68,13 @@ class MainActivity : AppCompatActivity() {
         predict.setOnClickListener(View.OnClickListener {
             val model = SavedModel384.newInstance(this)
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 384, 384, 3), DataType.FLOAT32)
+
             val resizedImage = resizeBitmap(bitmap, 384, 384)
             val tensorImage = TensorImage(DataType.FLOAT32)
             tensorImage.load(resizedImage)
+            val preProcessing = preProcessImage(tensorImage)
             val modelOutput = tensorImage.buffer
+
             inputFeature0.loadBuffer(modelOutput)
             val outputs = model.process(inputFeature0)
             val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
@@ -95,6 +100,13 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("classified", finalClass)
             startActivity(intent)
         }
+    }
+
+    private fun preProcessImage(tensorImage: TensorImage): Any {
+        var imageProcessor : ImageProcessor.Builder = ImageProcessor.Builder().add(NormalizeOp(0.0f, 255.0f))
+        var img = imageProcessor.build()
+        img.process(tensorImage)
+        return tensorImage
     }
 
     //mostrare l'immagine selezionata
