@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import it.unibo.sistemidigitali.ml.SavedModel2
+import it.unibo.sistemidigitali.ml.SavedModel384
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -64,14 +64,14 @@ class MainActivity : AppCompatActivity() {
         //codice per predire la classe dell'immagine
         var predict: Button = findViewById(R.id.predictButton)
         predict.setOnClickListener(View.OnClickListener {
-            val model = SavedModel2.newInstance(this)
-            val input = TensorBuffer.createFixedSize(intArrayOf(1, 384, 384, 3), DataType.FLOAT32)
+            val model = SavedModel384.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 384, 384, 3), DataType.FLOAT32)
             val resizedImage = resizeBitmap(bitmap, 384, 384)
             val tensorImage = TensorImage(DataType.FLOAT32)
             tensorImage.load(resizedImage)
             val modelOutput = tensorImage.buffer
-            input.loadBuffer(modelOutput)
-            val outputs = model.process(input)
+            inputFeature0.loadBuffer(modelOutput)
+            val outputs = model.process(inputFeature0)
             val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
             var max = getMax(outputFeature0)
             finalClass = townlist[max]
@@ -81,6 +81,10 @@ class MainActivity : AppCompatActivity() {
             simulate.visibility = View.VISIBLE
             tv2.text = result
             // Releases model resources if no longer used.
+            for(i in 0..4){
+                val TOT = "list"
+                    Log.i(TOT, "this is ${i} and the value is ${townlist[i]}")
+            }
             val TAG = "tensor"
             Log.i(TAG, "this is ${townlist[max]}")
             model.close()
