@@ -81,17 +81,21 @@ class MainActivity : AppCompatActivity() {
             var max = getMax(outputFeature0)
             finalClass = townlist[max]
             //scrittura risultato
+            var done : String = townlist[max].trim()
             var result : String = printResult(townlist[max].trim())
+            Log.i("Label", "the result is $result; the other is $done")
+            tv2.text = result
             tv2.visibility = View.VISIBLE
             simulate.visibility = View.VISIBLE
-            tv2.text = result
             // Releases model resources if no longer used.
+            /*
             for(i in 0..4){
                 val TOT = "list"
                     Log.i(TOT, "this is ${i} and the value is ${townlist[i]}")
             }
             val TAG = "tensor"
             Log.i(TAG, "this is ${townlist[max]}")
+             */
             model.close()
         })
         //scelta dell'immagine dalla galleria
@@ -142,8 +146,10 @@ class MainActivity : AppCompatActivity() {
                 index = i
                 max = arr[i]
             }
+            /*
             val TAG = "value"
             Log.i(TAG, "this is ${i}, and here is its value ${arr[i]}")
+             */
         }
         return index
     }
@@ -151,11 +157,11 @@ class MainActivity : AppCompatActivity() {
     private fun printResult(result : String) : String{
         var returnResult : String = ""
        when (result) {
-            "Arch_bridges" -> returnResult = "The picture shows an arch bridge"
-            "Castles" -> returnResult ="The picture shows a castle"
-            "Church" -> returnResult ="The picture shows a church"
-            "Towers" -> returnResult ="The picture shows a tower"
-            "Triumphal_arches" -> returnResult ="The picture shows a triumphal arch"
+            "Arch_bridges" -> returnResult = "The picture shows an arch bridge."
+            "Castles" -> returnResult ="The picture shows a castle."
+            "Churches" -> returnResult ="The picture shows a church."
+            "Towers" -> returnResult ="The picture shows a tower."
+            "Triumphal_Arches" -> returnResult ="The picture shows a triumphal arch."
         }
         return returnResult
     }

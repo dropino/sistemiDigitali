@@ -16,23 +16,26 @@ class SimulationActivity : AppCompatActivity() {
 
         var classification : TextView = findViewById(R.id.classification)
         val classified : String? = intent.getStringExtra("classified")
-        classification.text = "Class: " + classified
+        val image_class : String? = "Class" + Simulation.printClass(classified)
+        classification.text = image_class
 
-        var distance : EditText = findViewById(R.id.editDistance)
-        var magnitude : EditText = findViewById(R.id.editMagnitude)
+        val distance : EditText = findViewById(R.id.editDistance)
+        val magnitude : EditText = findViewById(R.id.editMagnitude)
 
-        var simulate : Button = findViewById(R.id.runSimulation)
-        var conclusion : TextView = findViewById(R.id.conclusion)
+        val simulate : Button = findViewById(R.id.runSimulation)
+        val conclusion : TextView = findViewById(R.id.conclusion)
+        var text : String
         conclusion.visibility= View.INVISIBLE
         simulate.setOnClickListener{
             val r : String? = distance.text.toString()
             val mw : String? = magnitude.text.toString()
-            if(r == null || mw == null){
-                conclusion.text = "Distance and magnitude cannot be null"
+            text = if(r.isNullOrEmpty() || mw.isNullOrEmpty()){
+                "Distance and magnitude cannot be null"
             }else {
                 val damage : Double = Simulation.runSimulation(classified.toString(), mw.toDouble(), r.toDouble())
-                conclusion.text = "Damage Level: ${damage.roundToInt()}\n" + printDamage(damage.roundToInt())
+                "Damage Level: ${damage.roundToInt()}\n" + printDamage(damage.roundToInt())
             }
+            conclusion.text = text
             conclusion.visibility = View.VISIBLE
         }
     }

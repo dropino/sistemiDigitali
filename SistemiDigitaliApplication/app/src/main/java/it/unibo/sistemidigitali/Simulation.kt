@@ -49,4 +49,16 @@ object Simulation {
         val imm = calculateImm(mw, r)
         return calculateMeanDamage(v, q, imm)
     }
+
+    fun printClass(classified: String?): String{
+        var returnResult = ""
+        when (classified) {
+            "Arch_bridges" -> returnResult = "Arch bridges"
+            "Castles" -> returnResult ="Castles"
+            "Churches" -> returnResult ="Churches"
+            "Towers" -> returnResult ="Towers"
+            "Triumphal_Arches" -> returnResult ="Triumphal arches"
+        }
+        return returnResult
+    }
 }
