@@ -17,6 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemiDigitaliApplication"
         tools:ignore="AllowBackup">
+        <provider
+            android:authorities="it.unibo.sistemidigitali.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider">
+            </meta-data>
+        </provider>
+
         <activity
             android:name=".SimulationActivity"
             android:label="Seismic simulation"

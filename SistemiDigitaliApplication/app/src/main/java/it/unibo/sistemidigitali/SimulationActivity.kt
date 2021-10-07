@@ -13,31 +13,37 @@ class SimulationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simulate)
-
-        var classification : TextView = findViewById(R.id.classification)
-        val classified : String? = intent.getStringExtra("classified")
-        val image_class : String? = "Class" + Simulation.printClass(classified)
-        classification.text = image_class
-
+        val classification : TextView = findViewById(R.id.classification)
+        val imageClass : String
+        val classified = intent.getStringExtra("classified")
+        imageClass = if(classified.isNullOrEmpty()){
+            "Something went wrong. Please, try again."
+        }
+        else {
+            "Class: " + Simulation.printClass(classified.trim())
+        }
+        classification.text = imageClass
+        //Valori di distanza e magnitudo letti da tastiera
         val distance : EditText = findViewById(R.id.editDistance)
         val magnitude : EditText = findViewById(R.id.editMagnitude)
-
         val simulate : Button = findViewById(R.id.runSimulation)
         val conclusion : TextView = findViewById(R.id.conclusion)
         var text : String
         conclusion.visibility= View.INVISIBLE
+        //Lancio della simulazione
         simulate.setOnClickListener{
-            val r : String? = distance.text.toString()
-            val mw : String? = magnitude.text.toString()
-            text = if(r.isNullOrEmpty() || mw.isNullOrEmpty()){
+            val r : String = distance.text.toString()
+            val mw : String = magnitude.text.toString()
+            text = if(r.isEmpty() || mw.isEmpty()){
                 "Distance and magnitude cannot be null"
             }else {
+                //calcolo e rappresentazione del livello di danno
                 val damage : Double = Simulation.runSimulation(classified.toString(), mw.toDouble(), r.toDouble())
                 "Damage Level: ${damage.roundToInt()}\n" + printDamage(damage.roundToInt())
             }
             conclusion.text = text
             conclusion.visibility = View.VISIBLE
-        }
+            }
     }
 
     private fun printDamage(damage: Int): String {
