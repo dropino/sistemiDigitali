@@ -117,7 +117,8 @@ class MainActivity : AppCompatActivity() {
         //caso 1: fotocamera. La fotografia è stata scattata e non ci sono errori, carica la bitmap opportunamente ottimizzata nell'imageView
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             val imageUri = Uri.fromFile(photoFile)
-            imgView.setImageBitmap(handleSamplingAndRotationBitmap(this,imageUri))
+            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+            imgView.setImageBitmap(handleSamplingAndRotationBitmap(this, imageUri))
         }else {
             //caso 2: galleria.
             super.onActivityResult(requestCode, resultCode, data)
